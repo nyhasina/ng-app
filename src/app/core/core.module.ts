@@ -1,33 +1,31 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthenticationModule } from '../features/authentication/authentication.module';
-import { StoreModule } from '@ngrx/store';
-import { metaReducers, reducers } from './store/reducers/app.reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../../environments/environment';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDBService } from './services/in-memory-db.service';
-import { HomeRootComponent } from './containers/home-root/home-root.component';
+import { environment } from '../../environments/environment';
+import { AuthenticationModule } from '../features/authentication/authentication.module';
+import { AuthenticationEffects } from '../features/authentication/store/effects/authentication.effects';
 import { HeaderComponent } from './components/header/header.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { HomeRootComponent } from './containers/home-root/home-root.component';
 import { CoreRoutingModule } from './core-routing.module';
-import { EffectsModule } from '@ngrx/effects';
+import { InMemoryDBService } from './services/in-memory-db.service';
 import { RouterEffects } from './store/effects/router.effects';
-import { AuthenticationEffects } from '../features/authentication/store/effects/authentication.effects';
+import { metaReducers, reducers } from './store/reducers/app.reducers';
+import { ErrorHandlerModule } from './utils/error-handler';
 
 @NgModule({
-    declarations: [
-        HomeRootComponent,
-        HeaderComponent,
-        SidenavComponent
-    ],
+    declarations: [HomeRootComponent, HeaderComponent, SidenavComponent],
     imports: [
         CommonModule,
         CoreRoutingModule,
         AuthenticationModule,
         HttpClientModule,
+        ErrorHandlerModule,
         environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(InMemoryDBService),
         StoreModule.forRoot(reducers, {
             metaReducers,
@@ -42,5 +40,4 @@ import { AuthenticationEffects } from '../features/authentication/store/effects/
     ],
     providers: []
 })
-export class CoreModule {
-}
+export class CoreModule {}
