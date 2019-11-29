@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { toastType } from 'src/app/shared/constants/notification.constants';
@@ -12,6 +11,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     constructor(private notificationService: NotificationService) {}
 
     handleError(error) {
+        console.error('Global', error);
         environment.production
             ? this.notificationService.openToast(toastType.DEFAULT_ERROR)
             : this.notificationService.openToast(toastType.ERROR_MESSAGE, error);
@@ -20,7 +20,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-    constructor(private toastr: ToastrService, private notificationService: NotificationService) {}
+    constructor(private notificationService: NotificationService) {}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
             tap((event) => {}),
