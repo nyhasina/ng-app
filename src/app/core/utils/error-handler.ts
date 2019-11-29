@@ -11,7 +11,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     constructor(private notificationService: NotificationService) {}
 
     handleError(error) {
-        console.error('Global', error);
+        !environment.production && console.error('Global', error);
         environment.production
             ? this.notificationService.openToast(toastType.DEFAULT_ERROR)
             : this.notificationService.openToast(toastType.ERROR_MESSAGE, error);
