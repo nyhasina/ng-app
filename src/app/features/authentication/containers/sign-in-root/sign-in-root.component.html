@@ -1,2 +1,2 @@
 <!-- <app-dynamic-form [buttonLabel]="'Sign in'" [questions]="questions" (save)="onSave($event)"></app-dynamic-form> -->
-<app-sign-in-form></app-sign-in-form>
+<app-sign-in-form [error]="signInError$ | async" (onsubmit)="onSave($event)"></app-sign-in-form>

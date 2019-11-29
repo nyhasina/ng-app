@@ -1,6 +1,6 @@
 import { User } from '../../access-management/types/user.interface';
 
-export interface AuthenticationResponse {
+export interface IAuthenticationResponse {
     user: User;
     token: string;
 }
