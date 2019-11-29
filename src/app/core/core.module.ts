@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
@@ -16,7 +16,6 @@ import { CoreRoutingModule } from './core-routing.module';
 import { InMemoryDBService } from './services/in-memory-db.service';
 import { RouterEffects } from './store/effects/router.effects';
 import { metaReducers, reducers } from './store/reducers/app.reducers';
-import { GlobalErrorHandler } from './utils/error-handler';
 
 @NgModule({
     declarations: [HomeRootComponent, HeaderComponent, SidenavComponent],
@@ -25,7 +24,7 @@ import { GlobalErrorHandler } from './utils/error-handler';
         CoreRoutingModule,
         AuthenticationModule,
         HttpClientModule,
-        // environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(InMemoryDBService),
+        environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(InMemoryDBService),
         StoreModule.forRoot(reducers, {
             metaReducers,
             runtimeChecks: {
@@ -37,11 +36,6 @@ import { GlobalErrorHandler } from './utils/error-handler';
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         StoreRouterConnectingModule.forRoot()
     ],
-    providers: [
-        {
-            provide: ErrorHandler,
-            useClass: GlobalErrorHandler
-        }
-    ]
+    providers: []
 })
 export class CoreModule {}
