@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -16,7 +16,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { InMemoryDBService } from './services/in-memory-db.service';
 import { RouterEffects } from './store/effects/router.effects';
 import { metaReducers, reducers } from './store/reducers/app.reducers';
-import { GlobalErrorHandler, HttpErrorInterceptor } from './utils/error-handler';
+import { GlobalErrorHandler } from './utils/error-handler';
 
 @NgModule({
     declarations: [HomeRootComponent, HeaderComponent, SidenavComponent],
@@ -25,7 +25,7 @@ import { GlobalErrorHandler, HttpErrorInterceptor } from './utils/error-handler'
         CoreRoutingModule,
         AuthenticationModule,
         HttpClientModule,
-        environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(InMemoryDBService),
+        // environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(InMemoryDBService),
         StoreModule.forRoot(reducers, {
             metaReducers,
             runtimeChecks: {
@@ -41,11 +41,6 @@ import { GlobalErrorHandler, HttpErrorInterceptor } from './utils/error-handler'
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: HttpErrorInterceptor,
-            multi: true
         }
     ]
 })
