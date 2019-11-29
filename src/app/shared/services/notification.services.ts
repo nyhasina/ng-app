@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 import { NOTIFICATION_MESSAGES, toastType } from '../constants/notification.constants';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class NotificationService {
-    constructor(public snackBar: MatSnackBar, private toastr: ToastrService) {}
+    constructor(public snackBar: MatSnackBar, private toastr: ToastrService, private injector: Injector) {}
 
     openSnackBar(message: string, panelClass: string) {
         console.log('Showing snackbar', this.snackBar);
@@ -18,6 +18,7 @@ export class NotificationService {
     }
 
     openToast(type: toastType, message?: string, title?: string) {
+        this.toastr = this.injector.get(ToastrService);
         switch (type) {
             case toastType.DEFAULT_ERROR:
                 this.toastr.error(NOTIFICATION_MESSAGES[toastType.DEFAULT_ERROR]);
