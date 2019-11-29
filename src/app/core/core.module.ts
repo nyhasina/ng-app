@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
@@ -16,7 +16,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { InMemoryDBService } from './services/in-memory-db.service';
 import { RouterEffects } from './store/effects/router.effects';
 import { metaReducers, reducers } from './store/reducers/app.reducers';
-import { ErrorHandlerModule } from './utils/error-handler';
+import { GlobalErrorHandler, HttpErrorInterceptor } from './utils/error-handler';
 
 @NgModule({
     declarations: [HomeRootComponent, HeaderComponent, SidenavComponent],
@@ -25,7 +25,6 @@ import { ErrorHandlerModule } from './utils/error-handler';
         CoreRoutingModule,
         AuthenticationModule,
         HttpClientModule,
-        ErrorHandlerModule,
         environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(InMemoryDBService),
         StoreModule.forRoot(reducers, {
             metaReducers,
@@ -38,6 +37,16 @@ import { ErrorHandlerModule } from './utils/error-handler';
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         StoreRouterConnectingModule.forRoot()
     ],
-    providers: []
+    providers: [
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpErrorInterceptor,
+            multi: true
+        }
+    ]
 })
 export class CoreModule {}
