@@ -7,10 +7,12 @@ import { SharedModule } from '../../shared/shared.module';
 import { AuthenticationService } from './services/authentication.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationMockService } from './services/authentication-mock.service';
+import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
 
 @NgModule({
     declarations: [
-        SignInRootComponent
+        SignInRootComponent,
+        SignInFormComponent
     ],
     imports: [
         CommonModule,
