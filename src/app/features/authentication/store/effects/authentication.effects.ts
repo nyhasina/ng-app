@@ -29,5 +29,16 @@ export class AuthenticationEffects {
         )
     );
 
+    signInFail$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(signInFail),
+                map((action) => {
+                    throw new Error(JSON.stringify(action.error));
+                })
+            ),
+        { dispatch: false }
+    );
+
     constructor(private actions$: Actions, private authenticationService: AuthenticationService, private router: Router) {}
 }
