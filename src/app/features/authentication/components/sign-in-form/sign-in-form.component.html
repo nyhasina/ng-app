@@ -1,21 +1,21 @@
 <mat-card>
-    <mat-card-title>Login</mat-card-title>
+    <mat-card-title>Sign in</mat-card-title>
     <mat-card-content>
         <form class="authentication-form" [formGroup]="form" *ngIf="form" (ngSubmit)="onSubmit()">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email/Username</mat-label>
                 <input matInput placeholder="Email/Username" formControlName="email" [errorStateMatcher]="matcher" />
                 <mat-hint>admin</mat-hint>
                 <mat-error *ngIf="form.invalid">{{ getErrorMessage('email') }}</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
                 <input matInput placeholder="Password" formControlName="password" [errorStateMatcher]="matcher" />
                 <mat-hint>admin</mat-hint>
                 <mat-error *ngIf="form.invalid">{{ getErrorMessage('password') }}</mat-error>
             </mat-form-field>
-            <div class="error" *ngIf="error">{{ error }}</div>
             <div class="button">
-                <button type="submit" mat-button>Login</button>
-                <button (click)="testError()" mat-button>Error</button>
+                <button type="submit" color="primary" mat-button>Login</button>
             </div>
         </form>
     </mat-card-content>

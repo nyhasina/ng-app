@@ -26,10 +26,6 @@ export class SignInFormComponent implements OnInit {
         });
     }
 
-    testError() {
-        throw new Error('Hahaha');
-    }
-
     onSubmit() {
         this.form.valid && this.onsubmit.emit(this.form.value);
     }
